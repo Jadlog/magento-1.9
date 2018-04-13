@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- /** * DPD France shipping module for Magento * * @category DPDFrance * @package DPDFrance_Shipping * @author DPD France S.A.S. <ensavoirplus.ecommerce@dpd.fr> * @copyright 2016 DPD France S.A.S., société par actions simplifiée, au capital de 18.500.000 euros, dont le siège social est situé 9 Rue Maurice Mallet - 92130 ISSY LES MOULINEAUX, immatriculée au registre du commerce et des sociétés de Paris sous le numéro 444 420 830 * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0) */ -->
+<config>
+	<default>
+		<dpdfrexport module="dpdfrexport">
+			<embarcador>
+				<serviceurl>http://www.jadlog.com.br/embarcador/api/pedido/incluir</serviceurl>
+				<mypudoserviceurl>http://mypudo.pickup-services.com/mypudo/mypudo.asmx/GetPudoList</mypudoserviceurl>
+				<mypudofirmid>JAD</mypudofirmid>
+				<tracking_url>http://www.jadlog.com.br/sitejadlog/tracking.jad?cte={TRACKING_ID}</tracking_url>
+				<serviceurlfrete>http://www.jadlog.com.br/JadlogEdiWs/services/ValorFreteBean?method=valorar</serviceurlfrete>
+				<attribute_name_width>jadlog_width</attribute_name_width>
+				<attribute_name_height>jadlog_height</attribute_name_height>
+				<attribute_name_length>jadlog_length</attribute_name_length>
+				<attribute_name_cpf_or_cnpj>jadlog_cpf_or_cnpj</attribute_name_cpf_or_cnpj>
+			</embarcador>
+		</dpdfrexport>
+	</default>
+	<modules>
+		<DPDFrance_Export>
+			<version>5.2.20</version>
+			<depends>
+				<Mage_Shipping />
+			</depends>
+		</DPDFrance_Export>
+	</modules>
+	<global>
+		<blocks>
+			<dpdfrexport>
+				<class>DPDFrance_Export_Block</class>
+			</dpdfrexport>
+		</blocks>
+		<helpers>
+			<dpdfrexport>
+				<class>DPDFrance_Export_Helper</class>
+			</dpdfrexport>
+		</helpers>
+		<resources>
+			<salesattribute1513796923_setup>
+				<setup>
+					<module>DPDFrance_Export</module>
+					<class>Mage_Sales_Model_Mysql4_Setup</class>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</salesattribute1513796923_setup>
+			<salesattribute1513796923_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</salesattribute1513796923_write>
+			<salesattribute1513796923_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</salesattribute1513796923_read>
+			
+			<salesattribute1513796924_setup>
+		        <setup>
+		          <module>DPDFrance_Export</module>
+		          <class>Mage_Sales_Model_Mysql4_Setup</class>
+		        </setup>
+		        <connection>
+		          <use>core_setup</use>
+		        </connection>
+		      </salesattribute1513796924_setup>
+		      <salesattribute1513796924_write>
+		        <connection>
+		          <use>core_write</use>
+		        </connection>
+		      </salesattribute1513796924_write>
+		      <salesattribute1513796924_read>
+		        <connection>
+		          <use>core_read</use>
+		        </connection>
+		      </salesattribute1513796924_read>
+			
+			<dpdfrexport_setup>
+				<setup>
+					<module>DPDFrance_Export</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</dpdfrexport_setup>
+			<dpdfrexport_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</dpdfrexport_write>
+			<dpdfrexport_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</dpdfrexport_read>
+
+			
+		</resources>
+		<models>
+			<dpdfrexport>
+				<class>DPDFrance_Export_Model</class>
+			</dpdfrexport>
+		</models>
+	</global>
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<DPDFrance_Export before="Mage_Adminhtml">DPDFrance_Export_Adminhtml</DPDFrance_Export>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+	<adminhtml>
+		<translate>
+			<modules>
+				<Mage_Shipping>
+					<files>
+						<DPDFrance_Export>DPDFrance_Export.csv</DPDFrance_Export>
+					</files>
+				</Mage_Shipping>
+			</modules>
+		</translate>
+		<menu>
+			<sales>
+				<children>
+					<dpdfrexport translate="title">
+						<title>DPD France</title>
+						<sort_order>1000</sort_order>
+						<action>adminhtml/dpdfrance_export</action>
+					</dpdfrexport>
+				</children>
+			</sales>
+		</menu>
+		<acl>
+			<resources>
+				<admin>
+					<children>
+						<sales>
+							<children>
+								<dpdfrexport translate="title">
+									<title>DPD France</title>
+									<sort_order>1000</sort_order>
+									<action>adminhtml/dpdfrance_export</action>
+								</dpdfrexport>
+							</children>
+						</sales>
+						<system>
+							<children>
+								<config>
+									<children>
+										<dpdfrexport>
+											<title>DPD France</title>
+										</dpdfrexport>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+	</adminhtml>
+</config>

@@ -1,0 +1,224 @@
+/**
+ * DPD France shipping module for Magento
+ *
+ * @category   DPDFrance
+ * @package    DPDFrance_Shipping
+ * @author     DPD France S.A.S. <ensavoirplus.ecommerce@dpd.fr>
+ * @copyright  2016 DPD France S.A.S., société par actions simplifiée, au capital de 18.500.000 euros, dont le siège social est situé 9 Rue Maurice Mallet - 92130 ISSY LES MOULINEAUX, immatriculée au registre du commerce et des sociétés de Paris sous le numéro 444 420 830
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+@font-face {
+    font-family: DPDPlutoSansExtraLight;
+    src: url(../../../../../../media/dpdfrance/fonts/PlutoSansDPDExtraLight-Web.ttf);
+}
+
+@font-face {
+    font-family: DPDPlutoSansLight;
+    src: url(../../../../../../media/dpdfrance/fonts/PlutoSansDPDLight-Web.ttf);
+}
+
+@font-face {
+    font-family: DPDPlutoSansRegular;
+    src: url(../../../../../../media/dpdfrance/fonts/PlutoSansDPDRegular-Web.ttf);
+}
+
+.warnmsg
+{
+    background-color:#fff !important;
+    box-sizing:border-box !important;
+    border-style: solid;
+    border-color: #a90034;
+    border-width: 2px;
+    color:#a90034!important;
+    font-family:DPDPlutoSansRegular !important;
+    font-size:13px!important;
+    font-weight:bold;
+    margin:15px 0!important;
+    padding:15px 15px 15px 50px !important;
+    position:relative!important;
+    width:100%!important;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.warnmsg::before
+{
+    -moz-osx-font-smoothing:grayscale;
+    -webkit-font-smoothing:antialiased;
+    box-sizing:border-box;
+    color:#a90034;
+    content:"!";
+    font-family:DPDPlutoSansRegular;
+    font-size:42px;
+    font-style:normal;
+    font-weight:400;
+    height:25px;
+    left:20px;
+    line-height:1;
+    margin:auto;
+    position:absolute;
+    width:25px;
+    top: 39%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+.predict_header {
+    width: 100%;
+    height: 25px;
+    line-height: 24px;
+    margin: 0;
+    padding: 0;
+    background-color: #DC0032;
+}
+
+label.predict_label_header {
+    height: 23px;
+    padding: 0 0 0 15px !important;
+    font-size: 13px;
+    font-family: DPDPlutoSansLight;
+    color: #fff !important;
+    background-color: #dc0032 !important;
+    text-align: left;
+}
+
+#dpdfrpredict {
+    background-color: #fff;
+    font-size: 12px;
+    font-family: DPDPlutoSansLight;
+    padding: 0;
+    margin: 0;
+}
+
+.predict_logo {
+    width: 100%;
+    height: 64px;
+    padding: 0;
+    text-align:center;
+}
+label.predict_label_logo {
+    background-color: transparent !important;
+    padding: 10px 0 0 0 !important;
+    margin-left: 120px !important;
+}
+#div_dpdfrance_predict_gsm {
+    background-color: #cac4be;
+    color: #424143;
+    display: block;
+    font-size: 13px;
+    font-family: DPDPlutoSansRegular;
+    padding: 15px;
+}
+
+#gsm_dest {
+    width: 120px;
+    font-size: 12px;
+    font-weight: 400;
+    height: 25px;
+    border: none;
+    margin-left: 15px;
+    font-family: DPDPlutoSansLight;
+}
+
+#div_dpdfrance_predict_gsm form {
+    margin: 0;
+    display: inline-block;
+}
+
+div.dpdfrance_predict_error {
+    color: #fff;
+    background-color: #A90034;
+    margin: 0;
+    padding: 15px;
+    font-size: 13px;
+    font-family: DPDPlutoSansRegular;
+}
+
+div.predict_search {
+    background: url(../../../../../../media/dpdfrance/front/predict/predict_receive.jpg) no-repeat;
+    background-size: cover;
+    font-size: 12px;
+    color: #424143;
+    height: auto;
+    margin: 0;
+}
+
+div.copy {
+    min-height: 301px;
+    padding-left: 50%;
+    padding-right: 10px;
+    height: auto;
+    font-family: DPDPlutoSansLight;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    margin: 0;
+}
+
+div.copy p {
+    margin: 10px;
+}
+
+div.copy h2 {
+    padding: 0;
+    font-family: DPDPlutoSansRegular;
+    margin: 10px;
+    font-size: 16px;
+    text-transform: none;
+    color: #424143;
+    background: transparent;
+}
+
+.copy ul li
+{
+    list-style-type:none;
+    padding-bottom: 5px;
+}
+
+.copy ul li:before {
+    content: '•';
+    margin-right: 8px;
+    color: #dc0042;
+}
+
+a.dpdfrance_more {
+    margin-left: 10px;
+    color: #424143;
+}
+
+a.dpdfrance_more:hover {
+    color: #DC0042;
+}
+
+input.predict-input-text {
+    padding-left: 5px;
+}
+
+#dpdfrance_predict_error {
+    color: #fff;
+    background-color: #A90034;
+    margin: 0;
+    padding: 15px;
+    font-size: 13px;
+    font-family: DPDPlutoSansRegular;
+}
+#div_dpdfrance_dpd_logo
+{
+    height: 45px;
+    margin-top: -30px;
+    width: 99%;
+    background:url(../../../../../../media/dpdfrance/front/predict/dpd_logo.png) no-repeat right;
+}
+@media only screen and (max-width: 750px) {
+    div.predict_search
+    {
+        background:#fff;
+    }
+
+    div.copy
+    {
+        padding-left:10px;
+        padding-right:10px;
+    }
+}

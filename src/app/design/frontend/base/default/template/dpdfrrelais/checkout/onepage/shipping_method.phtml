@@ -1,0 +1,32 @@
+<?php
+/**
+ * DPD France shipping module for Magento
+ *
+ * @category   DPDFrance
+ * @package    DPDFrance_Shipping
+ * @author     DPD France S.A.S. <ensavoirplus.ecommerce@dpd.fr>
+ * @copyright  2016 DPD France S.A.S., société par actions simplifiée, au capital de 18.500.000 euros, dont le siège social est situé 9 Rue Maurice Mallet - 92130 ISSY LES MOULINEAUX, immatriculée au registre du commerce et des sociétés de Paris sous le numéro 444 420 830 
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<form id="co-shipping-method-form" action="">
+    <div id="checkout-shipping-method-load">
+        <?php echo $this->getChildHtml('available') ?>
+    </div>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo Mage::getStoreConfig('dpdfrexport/embarcador/google_maps_api_key'); ?>"></script>
+    <script type="text/javascript">
+    //<![CDATA[
+        var shippingMethod = new ShippingMethod('co-shipping-method-form', "<?php echo $this->getUrl('checkout/onepage/saveShippingMethod') ?>");
+    //]]>
+    </script>
+    <div id="onepage-checkout-shipping-method-additional-load">
+        <?php echo $this->getChildHtml('additional') ?>
+    </div>
+    <div class="buttons-set" id="shipping-method-buttons-container">
+        <p class="back-link"><a href="#" onclick="checkout.back(); return false;"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+        <button type="button" class="button" onclick="updateshipping('<?php echo substr(Mage::getUrl('relais/dpdfrrelais/changeshippingaddress'),0,-1)?>')"><span><span><?php echo $this->__('Continue') ?></span></span></button>
+        <span id="shipping-method-please-wait" class="please-wait" style="display:none;">
+            <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Loading next step...') ?>" title="<?php echo $this->__('Loading next step...') ?>" class="v-middle" /> <?php echo $this->__('Loading next step...') ?>
+        </span>
+    </div>
+</form>

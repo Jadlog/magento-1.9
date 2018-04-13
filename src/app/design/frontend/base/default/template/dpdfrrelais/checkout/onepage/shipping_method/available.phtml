@@ -1,0 +1,121 @@
+<?php
+/**
+ * DPD France shipping module for Magento
+ *
+ * @category   DPDFrance
+ * @package    DPDFrance_Shipping
+ * @author     DPD France S.A.S. <ensavoirplus.ecommerce@dpd.fr>
+ * @copyright  2016 DPD France S.A.S., société par actions simplifiée, au capital de 18.500.000 euros, dont le siège social est situé 9 Rue Maurice Mallet - 92130 ISSY LES MOULINEAUX, immatriculée au registre du commerce et des sociétés de Paris sous le numéro 444 420 830 
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<?php if (!($_shippingRateGroups = $this->getShippingRates())): ?>
+    <p><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></p>
+<?php else: ?>
+<input type="hidden" id="vlDec" name="vlDec" value="<?php echo Mage::registry('vlDec')?>" />
+<input type="hidden" id="pesoCubadoTotal" name="pesoCubadoTotal" value="<?php echo Mage::registry('pesoCubadoTotal')?>" />
+<input type="hidden" id="cpfOrCnpj" name="cpfOrCnpj" value="<?php echo Mage::registry('cpfOrCnpj')?>" />
+
+<dl class="sp-methods">
+    <?php $_sole = count($_shippingRateGroups) == 1; foreach ($_shippingRateGroups as $code => $_rates): ?>
+        <dt><?php echo $this->getCarrierName($code) ?></dt>
+        <dd>
+            <ul>
+            <?php $_sole = $_sole && count($_rates) == 1; foreach ($_rates as $_rate): ?>
+                <li>
+                   <?php if ($_rate->getErrorMessage()): ?>
+                   <ul class="messages"><li class="error-msg"><ul><li><?php echo $_rate->getErrorMessage() ?></li></ul></li></ul>
+                   <?php else: ?>
+                        <?php // Ajout DPD France - ajout radioCheck au load + onClick="radioCheck()" sur les boutons radio pour afficher/masquer les div DPD Relais et Predict ?>
+                        <?php echo '<script type="text/javascript">radioCheck();</script>'; ?>
+                        <input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> class="radio" onClick="radioCheck()" />
+                        <?php // Fin DPD France ?>
+                        <label for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $_rate->getMethodTitle() ?>
+                        <?php if (($_rate->getCarrier()!='dpdfrrelais')): ?>
+                            <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                            <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+                            <?php echo $_excl; ?>
+                            <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                                (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        </label>
+                        
+                        <?php // Ajout DPD France - Div de sélection DPD Relais ?>
+                        <?php if (($_rate->getCarrier()=='dpdfrrelais') && ($this->getQuote()->getShippingAddress()->getCountry()== 'BR')):?>
+                        <div id="dpdfrrelais" style="display:none;" >
+                            <div class="relaypoint_header">
+                                <label class="relaypoint_label_header"><?php echo Mage::helper ( 'dpdfrrelais' )->__ ( 'Your Pickup delivery by DPD' )?></label><br>
+                            </div>
+                            <div class="relaypoint_search">
+                            
+                                <div class="relaypoint_logo">
+                                    <label class="relaypoint_label_logo"><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'dpdfrance/front/relais/carrier_logo.jpg' ?>" alt=""/>
+                                </div>
+                                
+                                <div class="relaypoint_input">
+                                
+	
+                                <label class="relaypoint_label_find"><?php echo Mage::helper ( 'dpdfrrelais' )->__ ( 'Find DPD Pickup points near this address : ' )?></label><br/>
+                                <input id="address" name="address" type="text" class="relaypoint-input-address" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet(1))?>"/><br>
+                                <input id="zipcode" name="zipcode" type="text" class="relaypoint-input-zipcode" value="<?php echo $this->htmlEscape($this->getAddress()->getPostcode())?>"/>
+                                <input id="city" name="city" type="text" class="relaypoint-input-city" value="<?php echo $this->htmlEscape($this->getAddress()->getCity())?>"/>
+                                <button class="dpdfrbutton" onclick="fetchPoint('<?php echo substr(Mage::getUrl('dpdfrrelais/pickup/index', array('_secure' => true)),0,-1)?>','suggestion')" type="button" style="height: 20px;padding: 0;width: 36px;">
+                                    <span>OK</span>
+                                </button>
+                                <span id="loadingpointswait" style="display:none;">
+                                    <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'dpdfrance/front/relais/loader.gif' ?>" alt="" class="v-middle" />
+                                </span>
+                                </div>
+                            <div id="suggestion"></div>
+                            </div>
+                        </div>
+                        <?php endif;?>
+                        <?php // Fin DPD France ?>
+
+                        <?php // Ajout DPD France - Div de présentation DPD Predict ?>
+                        <?php if (($_rate->getCarrier()=='dpdfrpredict') && ($this->getQuote()->getShippingAddress()->getCountry()== 'FR')):?>
+                        <div id="dpdfrpredict" style="display:none;" >
+                            <div class="predict_header">
+                                <label class="predict_label_header"><?php echo Mage::helper ( 'dpdfrpredict' )->__ ( 'Your Predict delivery by DPD' )?></label><br>
+                            </div>
+                            <div class="predict_search">
+                                <div class="predict_logo">
+                                    <label class="predict_label_logo"><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'dpdfrance/front/predict/dpd_predict_logo.png' ?>" alt=""/>
+                                </div>
+                                <div class="copy"> 
+                                    <p><h2><?php echo Mage::helper ( 'dpdfrpredict' )->__ ( 'Predict offers you the following benefits' )?></h2></p>
+                                    <ul>
+                                        <li><b><?php echo Mage::helper ( 'dpdfrpredict' )->__ ( 'A parcel delivery in a 1-hour time window (choice is made by SMS or through our website)' )?></b></li>
+                                        <li><b><?php echo Mage::helper ( 'dpdfrpredict' )->__ ( 'A complete and detailed tracking of your delivery' )?></b></li>
+                                        <li><b><?php echo Mage::helper ( 'dpdfrpredict' )->__ ( 'In case of absence, you can schedule a new delivery when and where you it suits you best' )?></b></li>
+                                    </ul>
+                                    <p><h2><?php echo Mage::helper ( 'dpdfrpredict' )->__ ( 'How does it work?' )?></h2></p>
+                                    <ul>
+                                        <li><?php echo Mage::helper ( 'dpdfrpredict' )->__ ( 'Once your order is ready for shipment, you will receive an SMS proposing various days and time windows for your delivery.' )?></li>
+                                        <li><?php echo Mage::helper ( 'dpdfrpredict' )->__ ( 'You choose the moment which suits you best for the delivery by replying to the SMS (no extra cost) or through our website' )?> <a href="http://www.dpd.fr/destinataires">dpd.fr</a></li>
+                                        <li><?php echo Mage::helper ( 'dpdfrpredict' )->__ ( 'On the day of delivery, a text message will precise you a 1-hour time window for the delivery.' )?></li>
+                                    </ul>
+                                </div>
+                                <br/>
+                                <div id="div_dpdfrance_dpd_logo"></div>
+                            </div>
+                            <div id="dpdfrance_predict_error" class="warnmsg" style="display:none;">
+                                <?php echo Mage::helper ( 'dpdfrpredict' )->__ ( 'It seems that the GSM number you provided is incorrect. Please provide a french GSM number, starting with 06 or 07, on 10 consecutive digits.')?>
+                            </div>
+                            <div id="div_dpdfrance_predict_gsm">
+                                <?php echo Mage::helper ( 'dpdfrpredict' )->__ ( 'To get all the advantages of DPD\'s Predict service, please provide a french mobile phone number here ')?>
+                                <input id="gsm_dest" name="gsm_dest" type="text" class="predict-input-text" value="<?php echo $this->htmlEscape($this->getQuote()->getBillingAddress()->getTelephone())?>"/>
+                            </div>                  
+                        </div>
+                        <?php endif;?>
+                        <?php // Fin DPD France ?>
+                        
+                   <?php endif ?>
+                </li>
+            <?php endforeach; ?>
+            </ul>
+        </dd>
+    <?php endforeach; ?>
+</dl>
+<?php endif; ?>

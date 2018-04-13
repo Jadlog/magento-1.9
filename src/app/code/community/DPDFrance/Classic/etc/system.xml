@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * DPD France shipping module for Magento
+ *
+ * @category   DPDFrance
+ * @package    DPDFrance_Shipping
+ * @author     DPD France S.A.S. <ensavoirplus.ecommerce@dpd.fr>
+ * @copyright  2016 DPD France S.A.S., société par actions simplifiée, au capital de 18.500.000 euros, dont le siège social est situé 9 Rue Maurice Mallet - 92130 ISSY LES MOULINEAUX, immatriculée au registre du commerce et des sociétés de Paris sous le numéro 444 420 830 
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <sections>
+        <carriers>
+            <groups>
+                <dpdfrclassic translate="label" module="shipping">
+                    <label>Jadlog - Entrega no endereço informado</label>
+                    <comment><![CDATA[]]></comment>
+                    <front-type>text</front-type>
+                    <sort_order>-98</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                      
+                    </fields>
+                </dpdfrclassic>
+            </groups>
+        </carriers>
+    </sections>
+</config>

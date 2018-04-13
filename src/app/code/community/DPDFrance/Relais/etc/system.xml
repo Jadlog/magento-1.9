@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * DPD France shipping module for Magento
+ *
+ * @category   DPDFrance
+ * @package	   DPDFrance_Shipping
+ * @author	   DPD France S.A.S. <ensavoirplus.ecommerce@dpd.fr>
+ * @copyright  2016 DPD France S.A.S., société par actions simplifiée, au capital de 18.500.000 euros, dont le siège social est situé 9 Rue Maurice Mallet - 92130 ISSY LES MOULINEAUX, immatriculée au registre du commerce et des sociétés de Paris sous le numéro 444 420 830 
+ * @license	   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <sections>
+        <carriers>
+            <groups>
+                <dpdfrrelais translate="label" module="shipping">
+                    <label>Jadlog - Retire em um ponto Pickup</label>
+                    <comment><![CDATA[]]></comment>
+                    <front-type>text</front-type>
+                    <sort_order>-100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <title translate="label">
+                            <label>Title</label>
+                            <front_type>text</front_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </title>
+                        <methodname translate="label">
+                            <label>Subtitle</label>
+                            <front_type>text</front_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </methodname>
+                        <serviceurl translate="label">
+                            <label>URL MyPudo</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </serviceurl>
+                        <indentifier translate="label">
+                            <label>ID trader</label>
+                            <front_type>text</front_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </indentifier>
+                        <key translate="label">
+                            <label>Security Key</label>
+                            <front_type>text</front_type>
+                            <sort_order>6</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </key>
+                        <depot translate="label">
+                            <label>Your DPD Depot #</label>
+                            <front_type>text</front_type>
+                            <sort_order>7</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Sur 3 chiffres (ex.: 013)</a>]]></comment>
+                        </depot>
+                        <cargo translate="label">
+                            <label>Your DPD Relais contract #</label>
+                            <front_type>text</front_type>
+                            <sort_order>8</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Sur 4 ou 5 chiffres, sans code agence, sans espace, sans tiret ni zéros devant</a>]]></comment>
+                        </cargo>
+                        <google_api_key translate="label">
+                            <label>Google Maps API Key</label>
+                            <front_type>text</front_type>
+                            <sort_order>9</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[<a href="https://console.developers.google.com/flows/enableapi?apiid=maps_backend,geocoding_backend,directions_backend,distance_matrix_backend,elevation_backend,places_backend&keyType=CLIENT_SIDE&reusekey=true" target="_blank" >Cliquez-ici pour générer votre clé API Google Maps</a>]]></comment>
+                        </google_api_key>
+                        <expense translate="label">
+                            <label>Shipping rates configuration</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </expense>
+                        <showerror translate="label">
+                            <label>Display when unavailable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </showerror>
+                        <specificerrmsg translate="label">
+                            <label>Displayed Error Message</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>16</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </specificerrmsg>
+                        <sort_order translate="label">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>270</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sort_order>
+                    </fields>
+                </dpdfrrelais>
+            </groups>
+        </carriers>
+    </sections>
+</config>

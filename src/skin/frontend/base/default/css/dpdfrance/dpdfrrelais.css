@@ -1,0 +1,791 @@
+/**
+ * DPD France shipping module for Magento
+ *
+ * @category   DPDFrance
+ * @package    DPDFrance_Shipping
+ * @author     DPD France S.A.S. <ensavoirplus.ecommerce@dpd.fr>
+ * @copyright  2016 DPD France S.A.S., société par actions simplifiée, au capital de 18.500.000 euros, dont le siège social est situé 9 Rue Maurice Mallet - 92130 ISSY LES MOULINEAUX, immatriculée au registre du commerce et des sociétés de Paris sous le numéro 444 420 830
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+@font-face {
+    font-family: DPDPlutoSansExtraLight;
+    src: url(../../../../../../media/dpdfrance/fonts/PlutoSansDPDExtraLight-Web.ttf);
+}
+
+@font-face {
+    font-family: DPDPlutoSansLight;
+    src: url(../../../../../../media/dpdfrance/fonts/PlutoSansDPDLight-Web.ttf);
+}
+
+@font-face {
+    font-family: DPDPlutoSansRegular;
+    src: url(../../../../../../media/dpdfrance/fonts/PlutoSansDPDRegular-Web.ttf);
+}
+
+.warnmsg
+{
+    background-color:#fff !important;
+    box-sizing:border-box !important;
+    border-style: solid;
+    border-color: #a90034;
+    border-width: 2px;
+    color:#a90034!important;
+    font-family:DPDPlutoSansRegular !important;
+    font-size:13px!important;
+    font-weight:bold;
+    margin:15px 0!important;
+    padding:15px 15px 15px 50px !important;
+    position:relative!important;
+    width:100%!important;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+li.warnmsg ul li {
+    padding: 0;
+    background-color: #fff;
+    text-transform: none;
+}
+.warnmsg::before
+{
+    -moz-osx-font-smoothing:grayscale;
+    -webkit-font-smoothing:antialiased;
+    box-sizing:border-box;
+    color:#a90034;
+    content:"!";
+    font-family:DPDPlutoSansRegular;
+    font-size:42px;
+    font-style:normal;
+    font-weight:400;
+    height:25px;
+    left:20px;
+    line-height:1;
+    margin:auto;
+    position:absolute;
+    width:25px;
+    top: 39%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.dialog {
+    position: absolute
+}
+.alphacube_content {
+    color: #424143;
+    font-family: 'DPDPlutoSansLight' !important;
+    font-size: 12px;
+    background: #424143;
+    box-shadow: 0px 0px 30px #444;
+    -moz-box-shadow: 0px 0px 30px #444;
+    -webkit-box-shadow: 0px 0px 30px #444;
+    background-color: transparent;
+}
+
+.alphacube_buttons {
+    font-size: 12px;
+    background-color: transparent;
+    height: 32px;
+    width: 32px;
+    border-style: none;
+    background: no-repeat;
+    cursor: pointer;
+    display: block;
+    position: fixed;
+    top: 5%;
+    left: 80.5%;
+    z-index: 1111;
+}
+.alphacube_buttons input {
+    width: 20%;
+    text-align: right;
+    border: none;
+    background-color: #fff;
+    color: #fff;
+    font-weight: bold;
+    z-index: 9999;
+}
+.overlay_alphacube {
+    background-color: #000;
+    -moz-opacity: 0.7;
+    opacity: 0.7;
+}
+.one-page-checkout .active .box-no-padding {
+    padding: 15px 20px
+}
+.one-page-checkout .active .box-no-padding dt {
+    clear: both
+}
+#checkout-shipping-method-load dd {
+    padding: 0 0 10px
+}
+button.dpdfrbutton {
+    background-color: #424143;
+    color: white;
+    border-style: none;
+    height: 25px !important;
+    width: 28px !important;
+    font-family: DPDPlutoSansRegular;
+    font-size: 12px;
+    cursor: pointer;
+}
+#dpdfrrelais #suggestion {
+    overflow: hidden;
+    padding: 20px 0 0 20px;
+    clear: both;
+}
+#dpdfrrelais #suggestion input {
+    vertical-align: top;
+    margin-top: 4px;
+    float: left;
+    clear: both;
+}
+#dpdfrrelais #suggestion div .s1 {
+    display: inline-block;
+    width: 55%;
+    padding: 0 10px 0 0;
+    float: left;
+}
+#dpdfrrelais #suggestion div .s2 {
+    display: inline-block;
+    width: 50px;
+    float: left;
+}
+#dpdfrrelais #suggestion div a {
+    float: left
+}
+#dpdfrrelais #suggestion span.s2 {
+    font-size: 12px;
+    text-transform: lowercase;
+    height: 18px;
+    width: 50px;
+    line-height: 60px;
+    margin: 0;
+    height: 59px;
+    padding: 0;
+    background-color: #fff;
+    color: #424143;
+}
+#dpdfrrelais #suggestion div a {
+    line-height: 40px;
+    font-variant: small-caps;
+    font-style: normal;
+    background-color: #fff;
+    height: 60px;
+    width: 90px;
+    margin: 0;
+    padding: 0;
+}
+#dpdfrrelais #suggestion p {
+    font-size: 12px;
+    font-variant: normal;
+    text-transform: none;
+}
+#dpdfrrelais #suggestion div {
+    float: left;
+    background-color: #fff;
+    margin: 0;
+    width: 100%;
+    height: 60px;
+    padding: 0;
+    border-style: solid;
+    border-bottom-width: 1px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-left-width: 0;
+    border-color: #424143;
+}
+#dpdfrrelais #suggestion div:nth-child(9)
+{
+    border:none;
+}
+#dpdfrrelais #suggestion {
+    font-family: 'DPDPlutoSansLight', sans-serif;
+    text-transform: uppercase;
+    font-variant: normal;
+    font-size: 10px;
+    border-style: none;
+    border-width: 1px;
+    padding: 0;
+    margin: 0;
+    width: 100;
+}
+#dpdfrrelais #suggestion span.s1 {
+    font-variant: normal;
+    text-transform: uppercase;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+    width: 48%;
+    height: 50px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    background-color: #fff;
+    color: #424143;
+}
+#dpdfrrelais #suggestion span.dpdfrrelais_logo img {
+    float: left;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    margin-top: 6px;
+    margin-left: 8px;
+    margin-right: 4px;
+}
+#dpdfrrelais #suggestion input.dpdfrrelais_radio {
+    cursor: pointer;
+    height: 14px;
+    margin: 0;
+    padding: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: -10px;
+    *margin-top: 22px; /* IE 7 fix */
+    margin-top: -36px\0; /* IE 8 fix */
+    float: right;
+}
+label.dpdfrrelais_button_ici {
+    min-width: 35px !important;
+    padding: 0 !important;
+    background-color: white !important;
+}
+input[name="relay-point"]:not(old) {
+    width: 0px;
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+    opacity: 0;
+}
+/* Bouton */
+input[name="relay-point"]:not(old) + label {
+    display: inline-block;
+    margin-left: 0px;
+    line-height: 1.5em;
+    margin-top: -15px;
+}
+input[name="relay-point"]:not(old) + label > span {
+    display: inline-block;
+    width: 35px;
+    height: 25px;
+    margin: 0.25em 0.25em 0.25em 0em;
+    border: none;
+    background: #e6e7e7;
+    vertical-align: bottom;
+    cursor: pointer;
+}
+/* Bouton gris normal */
+input[name="relay-point"]:not(old):checked + label > span {
+    background: #e6e7e7;
+}
+/* Texte ICI blanc sur bouton checked*/
+input[name="relay-point"]:not(old):checked + label > span:before {
+    content:'ICI';
+    display:block;
+    width:35px;
+    color:#fff;
+    font-size:14px;
+    line-height:25px;
+    text-align:center;
+}
+/* Overlay rouge sur bouton checked */
+input[name="relay-point"]:not(old):checked + label > span > span {
+    display:block;
+    width:35px;
+    height:25px;
+    margin-top:-25px;
+    margin-right:0;
+    background-color:#DC0032;
+}
+/* Texte ICI gris sur bouton normal */
+input[name="relay-point"]:not(old) + label > span:before {
+    content:'ICI';
+    display:block;
+    width:35px;
+    color:#424143;
+    font-size:14px;
+    line-height:25px;
+    text-align:center;
+}
+/* Label d'origine masqué */
+div label b {
+    display: none
+}
+#dpdfrrelais #suggestion span.s3 a {
+    line-height: 60px;
+    height: 59px;
+    width: 19%;
+    margin: 0;
+    background-color: #fff;
+    color: #424143;
+    text-align: center !important;
+    text-decoration: underline;
+    text-transform: none;
+    font-size: 12px;
+    font-variant: normal;
+}
+#dpdfrrelais #suggestion span.s3 a:hover{
+    color: #dc0032;
+    text-decoration: underline;
+}
+div.relaypoint_header {
+    width: 100%;
+    height: 25px;
+    line-height: 24px;
+    margin: 0;
+    padding: 0;
+    background-color: #DC0032;
+}
+div.relaypoint_header label {
+    color: #fff;
+    font-weight: normal;
+    font-size: 13px;
+    font-family: DPDPlutoSansRegular;
+}
+label.relaypoint_label_header {
+    height: 23px;
+    padding: 0 0 0 15px !important;
+    font-size: 13px;
+    font-family: DPDPlutoSansLight;
+    color: #fff !important;
+    background-color: #dc0032 !important;
+    text-align: left ;
+}
+div.relaypoint_search {
+    margin-bottom: 5px;
+    padding: 10px;
+    border-style: none;
+    background-color: #fff;
+    height: auto;
+}
+div.relaypoint_logo {
+    width: 100px;
+    padding: 0;
+    margin: 0;
+    float: left;
+    margin-top: 10px;
+    text-align:center;
+}
+div.relaypoint_logo label {
+    min-width: 80px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+div.relaypoint_logo label img {
+    height: 75px;
+    width: 75px;
+    float: left;
+    padding: 0;
+}
+label.relaypoint_label_logo {
+    background-color: #fff !important;
+}
+label.relaypoint_label_logo img {
+    height: 75px !important;
+    width: 75px !important;
+    float: left !important;
+    background-color: #fff !important;
+    padding: 0 !important;
+}
+div.relaypoint_input {
+    padding-left: 10px;
+    padding-bottom: 15px;
+    width: 72%;
+    margin-left: 110px;
+    margin-top: 10px;
+}
+label.relaypoint_label_find {
+    background-color: transparent !important;
+    padding: 0 !important;
+    font-family: 'DPDPlutoSansLight' !important;
+}
+input.relaypoint-input-address {
+    line-height: 19px !important;
+    margin-top: 4px !important;
+    margin-bottom: 5px !important;
+    border-style: none;
+    height: 25px !important;
+    padding-left: 5px;
+    width: 242px !important;
+    font-size: 12px;
+    font-family: DPDPlutoSansLight !important;
+    background-color: #e6e7e7 !important;
+    color: #424143 !important;
+}
+input.relaypoint-input-zipcode {
+    line-height: 19px !important;
+    padding-left: 5px;
+    width: 60px !important;
+    margin-right: 5px !important;
+    height: 25px !important;
+    border-style: none!important;
+    font-size: 12px!important;
+    font-family: DPDPlutoSansLight !important;
+    background-color: #e6e7e7 !important;
+    color: #424143 !important;
+}
+input.relaypoint-input-city {
+    line-height: 19px !important;
+    height: 19px !important;
+    padding-left: 5px;
+    width: 172px !important;
+    margin-right: 10px !important;
+    height: 25px !important;
+    border-style: none!important;
+    font-size: 12px!important;
+    font-family: DPDPlutoSansLight !important;
+    background-color: #e6e7e7 !important;
+    color: #424143 !important;
+}
+img.v-middle {
+    display:inline;
+    vertical-align:middle;
+}
+#suggestion div label {
+    margin-top: 15px;
+    margin-left: 15px;
+}
+div.alphacube_buttons button {
+    font-size: 12px;
+    background-color: transparent;
+    height: 32px;
+    width: 32px;
+    border-style: none;
+    background: no-repeat;
+    cursor: pointer;
+    display: block;
+    position: fixed;
+    top: 5%;
+    left: 80.5%;
+    z-index: 1111;
+}
+div.alphacube_message {
+    font-family: 'DPDPlutoSansLight', sans-serif;
+    text-rendering: optimizelegibility;
+    display:block;
+    border-radius: 6px;
+    position:fixed;
+    width:60%;
+    height:90%;
+    background-color:white;
+    top:5%;
+    left:20%;
+    padding: 0px;
+    text-align:left;
+    z-index:1110;
+}
+div.alphacube_message h4 {
+    width: 100;
+    height: 10px;
+    line-height: 18px;
+    background-color: #fff;
+    border-bottom: 1px solid #2E93CB;
+    font-weight: normal;
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: grey;
+    font-variant: normal;
+    text-transform: none;
+    font-family: DPDPlutoSansLight;
+    height: 22px;
+}
+div.header {
+    z-index: 0
+}
+/* Pop-in details */
+
+#filter {
+    display:none;
+    position:fixed;
+    width:100%;
+    height:100%;
+    background-color:#424143;
+    top:0;
+    left:0;
+    padding:14px;
+    text-align:left;
+    z-index:1000;
+    opacity:0.85;
+    filter:alpha(opacity=85); /*IE8 et avant */
+}
+
+.dpdfrrelaisboxcarto {
+    width:100%;
+    min-height: 62%;
+    top: 0px;
+    left: 0px;
+    border-radius: 6px 6px 0px 0px;
+}
+
+div.gm-style-cc div {
+    display: none;
+}
+
+div.gm-style {
+    border-radius: 6px 6px 0 0;
+}
+
+div.dpdfrrelaisboxbottom {
+    position: relative;
+    margin: 0 auto;
+    width: 800px;
+}
+
+.dpdfrrelaisboxadresseheader {
+    width: 240px;
+    height: 90px;
+    background: #fff;
+    font-weight:300;
+    font-size:12px;
+    text-align:center;
+    border-style: none;
+    line-height: 0px;
+    margin: 0;
+    padding: 0;
+}
+
+.dpdfrrelaisboxadresse {
+    min-height:88px;
+    height:auto;
+    line-height: 22px;
+    font-size: 11px;
+    width: 240px;
+    margin-bottom: 0;
+    position: absolute;
+    left:0%;
+}
+
+div.dpdfrrelaisboxadresse p {
+    padding: 0;
+    font-style: italic;
+    font-size: 12px;
+    line-height: 12px;
+    margin: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+div.dpdfrrelaisboxhoraires {
+    text-align:left;
+    background: #FFF;
+    height:auto;
+    line-height: 22px;
+    font-size: 11px;
+    width: 260px;
+    left: 250px;
+    position: absolute;
+}
+.dpdfrrelaisboxhorairesheader {
+    width: 240px;
+    height: 90px;
+    background: #fff;
+    font-weight:300;
+    font-size:12px;
+    text-align:center;
+    border-style: none;
+    margin: 0;
+    padding: 0;
+    line-height: 0px;
+}
+
+div.dpdfrrelaisboxhoraires p span {
+    font-family: 'DPDPlutoSansLight', sans-serif;
+    display: inline-block;
+    color: #dc0032;
+    font-size: 12px;
+    font-weight: 400;
+    width: 90px;
+    margin: 0;
+}
+
+div.dpdfrrelaisboxhoraires p {
+    padding: 0;
+    padding-top: 5px;
+    padding-left: 5px;
+    line-height: 11px;
+    margin: 0 !important;
+}
+
+.dpdfrrelaisboxinfos {
+    text-align:left;
+    background: #FFF;
+    height:auto;
+    line-height: 22px;
+    font-size: 11px;
+    width: 260px;
+    margin-right: 10px;
+    position: absolute;
+    left: 520px;
+}
+
+.dpdfrrelaisboxinfosheader {
+    width: 260px;
+    height: 90px;
+    background: #fff;
+    font-weight:300;
+    font-size:12px;
+    text-align:center;
+    border-style: none;
+    margin: 0;
+    padding: 0;
+    line-height: 0px;
+}
+
+div.dpdfrrelaisboxinfos h5 {
+    font-family: 'DPDPlutoSansLight', sans-serif;
+    display: inline-block;
+    color: #dc0032;
+    font-size: 12px;
+    font-weight: 400;
+    width: 200px;
+    margin: 0;
+    text-transform: none;
+}
+
+div.dpdfrrelaisboxinfos h4 {
+    font-family: 'DPDPlutoSansLight', sans-serif;
+    display: inline-block;
+    color: #dc0032;
+    font-size: 12px;
+    font-weight: 700;
+    width: 110px;
+    border-style: none;
+    padding: 0;
+    margin: 0;
+}
+div.dpdfrrelaisboxadresseheader img {
+    height: 64px;
+    width: 64px;
+    margin: 5px auto;
+}
+
+div.dpdfrrelaisboxhorairesheader img {
+    height: 64px;
+    width: 64px;
+    margin: 5px auto;
+}
+
+div.dpdfrrelaisboxinfosheader img {
+    height: 64px;
+    width: 64px;
+    margin: 5px auto;
+}
+
+#dpdfrrelaisboxinfoswarning {
+    display:inline;
+}
+
+.dpdfrrelaisboxjour {
+    display:inline-block;
+    color:#dc0032;
+    font-size: 12px;
+    font-weight:400;
+    min-width:75px;
+}
+
+.dpdfrrelaisboxclose {
+    background:no-repeat;
+    cursor: pointer;
+    display:block;
+    position:fixed;
+    top:5%;
+    left:91%;
+    z-index:1111;
+}
+
+.dpdfrrelaisboxclose img {
+    float:right;
+    padding-top:2px;
+    padding-right:2px;
+}
+
+button.ok_button {
+    font-size: 24px !important;
+    background-color: transparent;
+    height: 32px;
+    width: 32px;
+    cursor: pointer;
+    position: fixed;
+    z-index: 1111;
+    color: #fff;
+    font-family: 'DPDPlutoSansLight';
+    font-weight: 300;
+    transition: all .15s;
+}
+button.ok_button:hover
+{
+    transform:rotate(90deg);
+}
+input.ok_button {
+    font-size: 40px !important;
+    background-color: transparent;
+    height: 32px;
+    width: 32px;
+    cursor: pointer;
+    position: fixed;
+    z-index: 1111;
+    color: #fff;
+    font-family: 'DPDPlutoSansLight';
+    font-weight: 300;
+    top: 5%;
+    margin-left: -7px;
+    transition: all .15s;
+}
+input.ok_button:hover
+{
+    transform:rotate(90deg);
+}
+
+/* Responsive design */
+/* Condition horizontale (PC) */
+@media only screen and (max-width: 1350px) {
+    div.alphacube_message       {width: 80%; left:10%; top:5%;}
+    div.alphacube_buttons button {left:91%; top:5%;}
+    button.ok_button            {left:91%; top:5%;}
+    input.ok_button             {left:91%; top:5%;}
+}
+
+@media only screen and (max-width: 1020px) {
+    .dpdfrrelaisboxinfos        {display:none;}
+    div.dpdfrrelaisboxbottom    {width:520px;}
+}
+@media only screen and (max-width: 780px) {
+    #dpdfrrelais #suggestion span.dpdfrrelais_logo img {display: none;}
+    div.relaypoint_input        {margin-left: 160px;}
+}
+@media only screen and (max-width: 750px) {
+    #div_dpdfrrelais_header     {display:none;}
+    td.logodpdfrrelais          {display:none;}
+    td.adressepr                {padding-left:5px;font-size:10px; -webkit-border-radius: 5px 0px 0px 5px; -moz-border-radius: 5px 0px 0px 5px; -ms-border-radius: 5px 0px 0px 5px; -o-border-radius: 5px 0px 0px 5px; border-radius: 5px 0px 0px 5px;}
+    td.distancepr               {font-size:10px;}
+}
+
+@media only screen and (max-width: 680px) {
+    td.popinpr                  {display:none;}
+    .dpdfrrelaisboxcarto        {min-height:40%;}
+    .dpdfrrelaisboxadresse      {position: relative;}
+    div.dpdfrrelaisboxhoraires  {left:0;}
+    div.dpdfrrelaisboxbottom    {width:250px;}
+}
+@media only screen and (max-width: 640px) {
+    #div_relaypoint_header {display: none;}
+    #dpdfrrelais #suggestion span.s3 a {display: none;}
+    div.relaypoint_input {margin-left: 0;}
+    div.relaypoint_logo label img {display: none;}
+    #dpdfrrelais #suggestion span.s1 {
+        width: 53%;
+        font-size: 10px;
+        letter-spacing: -0.4px;
+        font-weight: normal !important;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        border-radius: 8px;
+    }
+}
+/* Condition verticale (Smartphone) */
+@media only screen and (max-height: 610px) {
+    .dpdfrrelaisboxcarto {display:none;}
+}

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * DPD France shipping module for Magento
+ *
+ * @category   DPDFrance
+ * @package    DPDFrance_Shipping
+ * @author     DPD France S.A.S. <ensavoirplus.ecommerce@dpd.fr>
+ * @copyright  2016 DPD France S.A.S., société par actions simplifiée, au capital de 18.500.000 euros, dont le siège social est situé 9 Rue Maurice Mallet - 92130 ISSY LES MOULINEAUX, immatriculée au registre du commerce et des sociétés de Paris sous le numéro 444 420 830 
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <default>
+        <carriers>
+            <dpdfrclassic>
+                <group>dpdfrclassic</group>
+                <active>1</active>
+                <sallowspecific>0</sallowspecific>
+                <model>dpdfrclassic/carrier_DPDFranceClassicShipping</model>
+                <name>Entrega Jadlog</name>
+                <title>Entregar pela Jadlog</title>
+                <methodname></methodname>
+                <expense>
+{
+	"Franco de port à 89€ sauf Corse":
+	{
+		"label": "Jadlog - Entrega no endereço informado",
+		"shipto": "FR-(2A,2B),MC",
+		"conditions": "{cart.price_including_tax}>=89",
+		"fees": 0.00
+	},
+
+	"Zones de montagne":
+	{
+		"label": "Jadlog - Entrega no endereço informado",
+		"shipto": "FR(04120,04130,04140,04160,04170,04200,04240,04260,04300,04310,04330,04360,04370,04400,04510,04530,04600,04700,04850,05100,05110,05120,05130,05150,05160,05170,05200,05220,05240,05250,05260,05290,05300,05310,05320,05330,05340,05350,05400,05460,05470,05500,05560,05600,05700,05800,06140,06380,06390,06410,06420,06430,06450,06470,06530,06540,06620,06710,06750,06910,09110,09140,09300,09460,25120,25140,25240,25370,25450,25500,25650,30570,31110,38112,38114,38142,38190,38250,38350,38380,38410,38580,38660,38700,38750,38860,38880,39220,39310,39400,63113,63210,63240,63610,63660,63690,63840,63850,64440,64490,64560,64570,65110,65120,65170,65200,65240,65400,65510,65710,66210,66760,66800,68140,68610,68650,73110,73120,73130,73140,73150,73160,73170,73190,73210,73220,73230,73250,73260,73270,73300,73320,73340,73350,73390,73400,73440,73450,73460,73470,73500,73530,73550,73590,73600,73620,73630,73640,73710,73720,73870,74110,74120,74170,74220,74230,74260,74310,74340,74350,74360,74390,74400,74420,74430,74440,74450,74470,74480,74660,74740,74920,83111,83440,83530,83560,83630,83690,83830,83840,84390,88310,88340,88370,88400,90200)",
+		"fees": "5+{table {cart.weight} in 0.5:5.30, 1.0:6.50, 2.0:7.40, 3.0:8.30, 5.0:10.10, 10.0:12.50, 20.0:15.00, 30.0:18.00}"
+	},
+
+	"Zones Iles et Corse":
+	{
+		"label": "Jadlog - Entrega no endereço informado",
+		"shipto": "FR(20*,17111,17123,17190,17310,17370,17410,17480,17550,17580,17590,17630,17650,17670,17740,17840,17880,17940,22870,29242,29253,29259,29980,29990,56360,56590,56780,56840,85350)",
+		"fees": "16+{table {cart.weight} in 0.5:5.30, 1.0:6.50, 2.0:7.40, 3.0:8.30, 5.0:10.10, 10.0:12.50, 20.0:15.00, 30.0:18.00}"  
+	},
+
+	"Zone France et Monaco":
+	{
+		"label": "Jadlog - Entrega no endereço informado",
+		"shipto": "FR,MC",
+		"fees": "{table {cart.weight} in 0.5:5.30, 1.0:6.50, 2.0:7.40, 3.0:8.30, 5.0:10.10, 10.0:12.50, 20.0:15.00, 30.0:18.00}"
+	},
+
+	"Zone DPD Europe 1":
+	{
+		"label": "Livraison en 48-96h dans toute l’Europe, et dans le monde entier avec la fiabilité du réseau DPD",
+		"shipto": "DE,BE,LU,NL",
+		"fees": "8+{table {cart.weight} in 0.5:5.30, 1.0:6.50, 2.0:7.40, 3.0:8.30, 5.0:10.10, 10.0:12.50, 20.0:15.00, 30.0:18.00}"
+	},
+
+	"Zone DPD Europe 2":
+	{
+		"label": "Livraison en 48-96h dans toute l’Europe, et dans le monde entier avec la fiabilité du réseau DPD",
+		"shipto": "AT,ES,GB,IT",
+		"fees": "11+{table {cart.weight} in 0.5:5.30, 1.0:6.50, 2.0:7.40, 3.0:8.30, 5.0:10.10, 10.0:12.50, 20.0:15.00, 30.0:18.00}" 
+	},
+
+	"Zone DPD Europe 3":
+	{
+		"label": "Livraison en 48-96h dans toute l’Europe, et dans le monde entier avec la fiabilité du réseau DPD",
+		"shipto": "HR,DK,EE,HU,IE,LT,PL,PT,CZ,SI,SK,SE",
+		"fees": "18+{table {cart.weight} in 0.5:5.30, 1.0:6.50, 2.0:7.40, 3.0:8.30, 5.0:10.10, 10.0:12.50, 20.0:15.00, 30.0:18.00}"
+	},
+
+	"Zone DPD Europe 4":
+	{
+		"label": "Livraison en 48-96h dans toute l’Europe, et dans le monde entier avec la fiabilité du réseau DPD",
+		"shipto": "GR,FI,BG,RO",
+		"fees": "32+{table {cart.weight} in 0.5:5.30, 1.0:6.50, 2.0:7.40, 3.0:8.30, 5.0:10.10, 10.0:12.50, 20.0:15.00, 30.0:18.00}"
+	}
+}
+                </expense>
+            </dpdfrclassic>
+        </carriers>
+    </default>
+    <modules>
+        <DPDFrance_Classic>
+            <version>5.2.0</version>
+            <depends>
+                <Mage_Shipping/>
+            </depends>
+        </DPDFrance_Classic>
+    </modules>
+    <global>
+        <blocks>
+            <dpdfrclassic>
+                <class>DPDFrance_Classic_Block</class>
+            </dpdfrclassic>
+        </blocks>
+        <helpers>
+            <dpdfrclassic>
+                <class>DPDFrance_Classic_Helper</class>
+            </dpdfrclassic>
+        </helpers>
+        <models>
+            <dpdfrclassic>
+                <class>DPDFrance_Classic_Model</class>
+            </dpdfrclassic>
+        </models>
+        <resources>
+            <dpdfrclassic_setup>
+                <setup>
+                    <module>DPDFrance_Classic</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </dpdfrclassic_setup>
+            <dpdfrclassic_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </dpdfrclassic_write>
+            <dpdfrclassic_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </dpdfrclassic_read>
+        </resources>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Shipping>
+                    <files>
+                        <DPDFrance_Classic>DPDFrance_Classic.csv</DPDFrance_Classic>
+                    </files>
+                </Mage_Shipping>
+            </modules>
+        </translate>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <dpdfrclassic>
+                                            <title>Entrega Jadlog</title>
+                                        </dpdfrclassic>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <frontend>
+        <layout>
+            <updates>
+                <dpdfrclassic module="DPDFrance_Classic">
+                    <file>dpdfrclassic.xml</file>
+                </dpdfrclassic>
+            </updates>
+        </layout>
+        <routers>
+            <dpdfrclassic>
+                <use>standard</use>
+                <args>
+                    <module>DPDFrance_Classic</module>
+                    <frontName>dpdfrclassic</frontName>
+                </args>
+            </dpdfrclassic>
+        </routers>
+        <translate>
+            <modules>
+                <Mage_Shipping>
+                    <files>
+                        <DPDFrance_Classic>DPDFrance_Classic.csv</DPDFrance_Classic>
+                    </files>
+                </Mage_Shipping>
+            </modules>
+        </translate>
+    </frontend>
+</config>

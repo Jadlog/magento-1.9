@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * DPD France shipping module for Magento
+ *
+ * @category   DPDFrance
+ * @package    DPDFrance_Shipping
+ * @author     DPD France S.A.S. <ensavoirplus.ecommerce@dpd.fr>
+ * @copyright  2016 DPD France S.A.S., société par actions simplifiée, au capital de 18.500.000 euros, dont le siège social est situé 9 Rue Maurice Mallet - 92130 ISSY LES MOULINEAUX, immatriculée au registre du commerce et des sociétés de Paris sous le numéro 444 420 830 
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<layout version="0.1.0">
+    <checkout_onepage_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><script>js/dpdfrance/dpdfrpredict.js</script></action>
+            <action method="addItem"><type>skin_css</type><name>css/dpdfrance/dpdfrpredict.css</name><params/></action>
+        </reference>
+        <reference name="checkout.onepage.shipping_method">
+            <action method="setTemplate"><template>dpdfrpredict/checkout/onepage/shipping_method.phtml</template></action>
+            <block type="checkout/onepage_shipping_method_available" name="checkout.onepage.shipping_method.available" as="available" template="dpdfrpredict/checkout/onepage/shipping_method/available.phtml"></block>
+        </reference>
+    </checkout_onepage_index>
+
+    <checkout_onepage_shippingmethod>
+        <block type="checkout/onepage_shipping_method_available" name="root" output="toHtml" template="dpdfrpredict/checkout/onepage/shipping_method/available.phtml"></block>
+    </checkout_onepage_shippingmethod>
+
+    <!-- Magento 1.8 et supérieur : activez ce bloc -->
+    <checkout_onepage_progress>
+        <block type="checkout/onepage_progress" name="shipping.progress" template="checkout/onepage/progress/shipping.phtml"></block>
+        <block type="checkout/onepage_progress" name="shippingmethod.progress" template="checkout/onepage/progress/shipping_method.phtml"></block>
+    </checkout_onepage_progress>
+
+    <checkout_onepage_progress_shipping>
+        <block type="checkout/onepage_progress" name="root" output="toHtml" template="relaypoint/checkout/onepage/progress/shipping.phtml">
+            <action method="setInfoTemplate"><method></method><template></template></action>
+        </block>
+    </checkout_onepage_progress_shipping>
+
+    <checkout_onepage_progress_shipping_method>
+        <block type="checkout/onepage_progress" name="root" output="toHtml" template="relaypoint/checkout/onepage/progress/shipping_method.phtml">
+            <action method="setInfoTemplate"><method></method><template></template></action>
+        </block>
+    </checkout_onepage_progress_shipping_method>
+</layout>
