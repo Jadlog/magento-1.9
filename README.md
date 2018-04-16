@@ -1,6 +1,8 @@
 # Extensão de Frete Jadlog - Magento
 
-[Manual de Instalaçao](doc/Jadlog%20-%20Magento.md)
+* [Manual de Instalação](doc/Jadlog%20-%20Magento.md)
+
+* [Download Extensão de Frete Jadlog - Magento](package/jadlog-magento.zip)
 
 ## Desenvolvimento
 

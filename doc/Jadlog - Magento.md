@@ -49,7 +49,7 @@ Este documento auxilia a instalação, configuração e utilização do módulo 
 Após o aceite da Proposta Comercial, serão fornecidos:
 - Contrato Jadlog
 - Documento técnico de acessos para configurações
-- Arquivo zip com a extensão Magento - Jadlog
+- [Arquivo zip com a extensão Jadlog - Magento](../package/jadlog-magento.zip)
 - Este manual de instalação e utilização
 
 <a id="avisos-importantes"></a>
