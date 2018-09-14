@@ -246,7 +246,7 @@ Após adicionar os atributos ao grupo padrão, eles deverão aparecer no cadastr
 
 ![Novo Produto](novo_produto.png)
 
-**Nota: ao editar produtos já existentes os novos atributos podem não aparecer. Nesse caso, é necessário utilizar a rotina de atualização de atributos através do menu *Catálogo -> Gerenciar Produtos*: marque os produtos que devem ser atualizados e escolha a ação *atualizar atributos*.
+**Nota: ao editar produtos já existentes os novos atributos podem não aparecer. Nesse caso, é necessário utilizar a rotina de atualização de atributos através do menu *Catálogo -> Gerenciar Produtos*: marque os produtos que devem ser atualizados e escolha a ação *atualizar atributos*.**
 
 <a id="forma-de-entrega"></a>
 ### Forma de entrega
