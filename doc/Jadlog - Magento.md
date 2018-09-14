@@ -1,4 +1,4 @@
-[//]: # (To view this file use: python -m pip install grip; python -m grip -b "Jadlog - Magento.md")
+[//]: # (To view this file use: python -m pip install --user grip; python -m grip -b "Jadlog - Magento.md")
 [//]: # (https://github.com/settings/tokens)
 [//]: # (vim ~/.grip/settings.py)
 [//]: # (PASSWORD = 'YOUR-ACCESS-TOKEN')
@@ -11,29 +11,29 @@
 ## Conteúdo
 <!-- MarkdownTOC -->
 
-- [Introdução](#introdu%C3%A7%C3%A3o)
+- [Introdução](#introducao)
   - [Compatibilidade](#compatibilidade)
-  - [Arquivos e documentos necessários](#arquivos-e-documentos-necess%C3%A1rios)
+  - [Arquivos e documentos necessários](#arquivos-e-documentos-necessarios)
   - [Avisos importantes](#avisos-importantes)
-    - [Nota sobre localização](#nota-sobre-localiza%C3%A7%C3%A3o)
-- [Instalação](#instala%C3%A7%C3%A3o)
-- [Configuração](#configura%C3%A7%C3%A3o)
-  - [Parâmetros iniciais](#par%C3%A2metros-iniciais)
-  - [Atributos para armazenar dimensões dos produtos](#atributos-para-armazenar-dimens%C3%B5es-dos-produtos)
+    - [Nota sobre localização](#nota-sobre-localizacao)
+- [Instalação](#instalacao)
+- [Configuração](#configuracao)
+  - [Parâmetros iniciais](#parametros-iniciais)
+  - [Atributos para armazenar dimensões dos produtos](#atributos-para-armazenar-dimensoes-dos-produtos)
     - [Criar novos atributos](#criar-novos-atributos)
     - [Utilizar novos atributos](#utilizar-novos-atributos)
   - [Forma de entrega](#forma-de-entrega)
-- [Utilização pelos clientes](#utiliza%C3%A7%C3%A3o-pelos-clientes)
+- [Utilização pelos clientes](#utilizacao-pelos-clientes)
   - [Escolha do ponto de retirada](#escolha-do-ponto-de-retirada)
-- [Utilização pelo administrador da loja](#utiliza%C3%A7%C3%A3o-pelo-administrador-da-loja)
+- [Utilização pelo administrador da loja](#utilizacao-pelo-administrador-da-loja)
   - [Preencher dados fiscais](#preencher-dados-fiscais)
-  - [Enviar solicitação de coleta](#enviar-solicita%C3%A7%C3%A3o-de-coleta)
+  - [Enviar solicitação de coleta](#enviar-solicitacao-de-coleta)
 - [Desenvolvimento](#desenvolvimento)
 
 <!-- /MarkdownTOC -->
 
 
-<a id="introdu%C3%A7%C3%A3o"></a>
+<a id="introducao"></a>
 ## Introdução
 
 Este documento auxilia a instalação, configuração e utilização do módulo Magento na integração do serviço de frete Jadlog Pick Up em sua plataforma e-commerce Magento.
@@ -44,7 +44,7 @@ Este documento auxilia a instalação, configuração e utilização do módulo 
 - Magento versão 1.9.x.
 - PHP 5.6 disponível em seu servidor para integração do módulo ao webservice.
 
-<a id="arquivos-e-documentos-necess%C3%A1rios"></a>
+<a id="arquivos-e-documentos-necessarios"></a>
 ### Arquivos e documentos necessários
 Após o aceite da Proposta Comercial, serão fornecidos:
 - Contrato Jadlog
@@ -59,13 +59,13 @@ Após o aceite da Proposta Comercial, serão fornecidos:
 
 ***A Jadlog não se responsabiliza por eventuais perdas de dados.***
 
-<a id="nota-sobre-localiza%C3%A7%C3%A3o"></a>
+<a id="nota-sobre-localizacao"></a>
 #### Nota sobre localização
 Recomendamos o uso do software Magento adaptado às peculiaridades do Brasil para a utilização correta desta extensão. Essa adaptação envolve certos procedimentos de configuração que não fazem parte do escopo deste documento.  
 <sub>* *Sobre esse assunto há amplo material disponível para consulta na internet*.</sub>
 
 
-<a id="instala%C3%A7%C3%A3o"></a>
+<a id="instalacao"></a>
 ## Instalação
 Certifique-se que o software Magento está instalado em local seguro em seu computador/servidor. O modo de instalação é manual e deve-se descompactar o arquivo *zip* disponibilizado pela Jadlog diretamente na pasta raiz do software Magento.
 
@@ -76,10 +76,10 @@ Nesses casos deve-se aceitar que elas sejam sobreescritas.
 
 Após a cópia dos arquivos, deve-se limpar o *cache* e as *sessões*. Para isso remova todo o conteúdo das pastas *var/cache* e *var/session* presentes na raiz da instalação do software Magento.
 
-<a id="configura%C3%A7%C3%A3o"></a>
+<a id="configuracao"></a>
 ## Configuração
 
-<a id="par%C3%A2metros-iniciais"></a>
+<a id="parametros-iniciais"></a>
 ### Parâmetros iniciais
 Para configurar os parâmetros iniciais da extensão acesse a configuração a partir do menu superior *Sistema -> Configuração*,  submenu *Vendas -> Jadlog*. Dentro do quadro **Jadlog Serviço de Coleta**, preencher os campos das *Configurações do serviço Embarcador da Jadlog para requisição de coleta*.
 
@@ -184,7 +184,7 @@ Corresponde ao atributo do produto que armazena a largura em **centímetros**. C
 - **Nome do Atributo de Altura do Produto**:  
 Corresponde ao atributo do produto que armazena a altura em **centímetros**. Caso sua loja não possua esse atributo, prrencha com o valor padrão *jadlog_height*. (Na próxima seção do manual explica-se como utilizar esse atributo na configuração dos produtos).
 
-<a id="atributos-para-armazenar-dimens%C3%B5es-dos-produtos"></a>
+<a id="atributos-para-armazenar-dimensoes-dos-produtos"></a>
 ### Atributos para armazenar dimensões dos produtos
 Todos os produtos devem possuir 3 atributos que serão utilizados para calcular o volume em *centímetros cúbicos* (cm<sup>3</sup>). 
 
@@ -242,7 +242,11 @@ Os atributos recém criados aparecem em "Atributos não atribuídos" (*Unassigne
 
 Após adicionar os atributos ao grupo padrão, eles deverão aparecer no cadastro, de produtos.
 
+**Importante: é necessário recriar os índices do sistema para refletir as alterações.**
+
 ![Novo Produto](novo_produto.png)
+
+**Nota: ao editar produtos já existentes os novos atributos podem não aparecer. Nesse caso, é necessário utilizar a rotina de atualização de atributos através do menu *Catálogo -> Gerenciar Produtos*: marque os produtos que devem ser atualizados e escolha a ação *atualizar atributos*.
 
 <a id="forma-de-entrega"></a>
 ### Forma de entrega
@@ -252,7 +256,7 @@ Para habilitar a escolha de frete Jadlog o último passo é ativar a forma de en
 
 Deve-se escolher "Habilitado - Sim" para as formas de entrega "Jadlog - Retire em um ponto Pickup" e "Jadlog - Entrega no endereço informado" e por fim clicar em "Salvar Configuração" (*Save Config*).
 
-<a id="utiliza%C3%A7%C3%A3o-pelos-clientes"></a>
+<a id="utilizacao-pelos-clientes"></a>
 ## Utilização pelos clientes
 Após configurada a extensão será possível escolher entre duas opções de frete:
 1) *Jadlog - Retire em um ponto Pickup*
@@ -278,7 +282,7 @@ Para visulaizar o mapa e demais informações do ponto de retirada, deve-se clic
 
 ![Detalhe Pickup](detalhe_pickup.png)
 
-<a id="utiliza%C3%A7%C3%A3o-pelo-administrador-da-loja"></a>
+<a id="utilizacao-pelo-administrador-da-loja"></a>
 ## Utilização pelo administrador da loja
 Os pedidos feitos pelos compradores que escolheram uma das formas de entrega "Jadlog" irão aparecer na tela *Vendas -> Jadlog*.
 
@@ -330,7 +334,7 @@ O exemplo abaixo mostra o envio de um pedido com duas declarações, uma no valo
 ```
 ![Preencher Dados Fiscais](preencher_dados_fiscais.png)
 
-<a id="enviar-solicita%C3%A7%C3%A3o-de-coleta"></a>
+<a id="enviar-solicitacao-de-coleta"></a>
 ### Enviar solicitação de coleta
 Após preencher os dados fiscais, deve-se enviar a solicitação de coleta para a Jadlog. Para isso, na mesma tela de gerencimamento de pedidos deve-se marcar os pedios que serão enviados à Jadlog, em seguida escolher "Exportar pedidos selecionados" no campo "Ações" (*Actions*) e clicar em "Enviar" (*Submit*).
 

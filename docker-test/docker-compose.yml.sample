@@ -1,0 +1,27 @@
+version: '2'
+services:
+  web:
+    image: alexcheng/magento
+    ports:
+      - "12811:80"
+    links:
+      - mysql
+    env_file:
+      - env
+    volumes:
+      - /var/www
+      - /usr/local/etc/php
+    restart: always
+    container_name: magento_web
+  mysql:
+    image: mysql:5.6
+    ports:
+      - "12812:3306"
+    expose:
+      - "3306"
+    env_file:
+      - env
+    volumes:
+      - /var/lib/mysql
+    restart: always
+    container_name: magento_mysql

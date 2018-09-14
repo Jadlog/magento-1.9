@@ -559,10 +559,10 @@ class DPDFrance_Export_Adminhtml_DPDFrance_ExportController extends Mage_Adminht
         $volumeOut .= '
     ]';
 
+//"codCliente": "' . $params['client_id'] . '",
         $body = '{
-    "codCliente": "' . $params['client_id'] . '",
     "conteudo": "' . $params['conteudo'] . '",
-    "pedido": "' . $params['order_id'] . '",
+    "pedido": ["' . $params['order_id'] . '"],
     "totPeso": ' . $params['order_weight'] . ',
     "totValor": ' . $params['order_tot_valor'] . ',
     "obs": "",
