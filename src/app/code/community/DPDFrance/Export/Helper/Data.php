@@ -6,7 +6,7 @@
  * @category   DPDFrance
  * @package    DPDFrance_Shipping
  * @author     DPD France S.A.S. <ensavoirplus.ecommerce@dpd.fr>
- * @copyright  2016 DPD France S.A.S., société par actions simplifiée, au capital de 18.500.000 euros, dont le siège social est situé 9 Rue Maurice Mallet - 92130 ISSY LES MOULINEAUX, immatriculée au registre du commerce et des sociétés de Paris sous le numéro 444 420 830 
+ * @copyright  2016 DPD France S.A.S., société par actions simplifiée, au capital de 18.500.000 euros, dont le siège social est situé 9 Rue Maurice Mallet - 92130 ISSY LES MOULINEAUX, immatriculée au registre du commerce et des sociétés de Paris sous le numéro 444 420 830
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class DPDFrance_Export_Helper_Data extends Mage_Core_Helper_Abstract
@@ -63,18 +63,18 @@ class DPDFrance_Export_Helper_Data extends Mage_Core_Helper_Abstract
         $usuariofrete = Mage::getStoreConfig('dpdfrexport/embarcador/usuariofrete');
         $url = $serviceurlfrete . '&vModalidade='.$modalidade.'&Password=' . $passwordfrete . '&vSeguro=N&vVlDec=' . $vlDec . '&vVlColeta=&vCepOrig=' . str_replace('-', '', $zipcodeFrom) . '&vCepDest=' . str_replace('-', '', $zipcodeTo) . '&vPeso=' . $peso . '&vFrap=N&vEntrega=D&vCnpj=' . $usuariofrete;
         Mage::getModel('core/log_adapter')->log("frete url: " . $url);
-        
+
         $str = '';
-        
-        
+
+
         if ($this->isTeste()) {
-            $str = '<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><valorarResponse xmlns=""><ns1:valorarReturn xmlns:ns1="http://jadlogEdiws">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt; 
-&lt;string xmlns=&quot;http://www.jadlog.com.br/JadlogEdiWs/services&quot;&gt; 
-   &lt;Jadlog_Valor_Frete&gt; 
-       &lt;versao&gt;1.0&lt;/versao&gt; 
-       &lt;Retorno&gt;16,72&lt;/Retorno&gt; 
-       &lt;Mensagem&gt;Valor do Frete&lt;/Mensagem&gt; 
-   &lt;/Jadlog_Valor_Frete&gt; 
+            $str = '<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><valorarResponse xmlns=""><ns1:valorarReturn xmlns:ns1="http://jadlogEdiws">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;string xmlns=&quot;http://www.jadlog.com.br/JadlogEdiWs/services&quot;&gt;
+   &lt;Jadlog_Valor_Frete&gt;
+       &lt;versao&gt;1.0&lt;/versao&gt;
+       &lt;Retorno&gt;16,72&lt;/Retorno&gt;
+       &lt;Mensagem&gt;Valor do Frete&lt;/Mensagem&gt;
+   &lt;/Jadlog_Valor_Frete&gt;
 &lt;/string&gt;</ns1:valorarReturn></valorarResponse></soapenv:Body></soapenv:Envelope>';
         } else {
             $curl = curl_init();
@@ -99,11 +99,12 @@ class DPDFrance_Export_Helper_Data extends Mage_Core_Helper_Abstract
     public function getMYPUDOList($params)
     {
         $queryparams = 'carrier=' . $params['carrier'] . '&key=' . $params['key'] . '&zipcode=' . $params['zipCode'] . '&city=' . str_replace(' ', '', strtoupper($params['city'])) . '&countrycode=' . $params['countrycode'] . '&requestID=' . $params['requestID'] . '&address=' . $params['address'] . '&date_from=' . $params['date_from'] . '&max_pudo_number=' . $params['max_pudo_number'] . '&max_distance_search=' . $params['max_distance_search'] . '&weight=' . $params['weight'] . '&category=' . $params['category'] . '&holiday_tolerant=' . $params['holiday_toleran'];
-        
-        $service_url = $params['serviceurl'] . '?' . $queryparams;
+
+        //$service_url = $params['serviceurl'] . '?' . $queryparams;
+        $service_url = $params['serviceurl'] . '/' . preg_replace("/\D/", "", $params['zipCode']);
         Mage::getModel('core/log_adapter')->log("getMYPUDOList url: $service_url");
 //         Mage::getModel('core/log_adapter')->log("getMYPUDOList body: $body");
-        
+
         if ($this->isTeste()) {
             $result = '<RESPONSE quality="1">
   <REQUEST_ID>1234</REQUEST_ID>
@@ -969,12 +970,17 @@ class DPDFrance_Export_Helper_Data extends Mage_Core_Helper_Abstract
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $service_url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-//             curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POST, 1);
 //             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 //                 "cache-control: no-cache",
 //                 "content-type: application/x-www-form-urlencoded"
 //             ));
 //             curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Accept: application/xml',
+                'Authorization: ' . $params['authorization']
+              )
+            );
             $result = curl_exec($ch);
             curl_close($ch);
         }
@@ -983,7 +989,7 @@ class DPDFrance_Export_Helper_Data extends Mage_Core_Helper_Abstract
         if ($pos == false) {
             return false;
         }
-        
+
         return $result;
     }
 }

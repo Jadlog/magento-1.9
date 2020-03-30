@@ -43,3 +43,4 @@
 
 # other files
 scrap/
+docker-test/*.sql

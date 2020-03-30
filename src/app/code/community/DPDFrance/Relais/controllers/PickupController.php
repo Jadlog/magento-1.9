@@ -49,41 +49,42 @@ class DPDFrance_Relais_PickupController extends Mage_Core_Controller_Front_Actio
         $address = $this->getRequest()->getParam('address');
         $address = mb_convert_encoding(urldecode($address), 'UTF-8');
         $address = self::stripAccents($address);
-        
+
         $zipcode = $this->getRequest()->getParam('zipcode');
         $zipcode = trim(urldecode($zipcode));
         $zipcode = mb_convert_encoding($zipcode, 'UTF-8');
-        
+
         $city = $this->getRequest()->getParam('city');
         $city = mb_convert_encoding(urldecode($city), 'UTF-8');
         $city = self::stripAccents($city);
-        
+
         // esses campos sao adicionados no js
         $vlDec = $this->getRequest()->getParam('vlDec');
         $peso = $this->getRequest()->getParam('pesoCubadoTotal');
         $cpfOrCnpj = $this->getRequest()->getParam('cpfOrCnpj');
-        
+
         Mage::getModel('core/log_adapter')->log("vlDec: $vlDec");
         Mage::getModel('core/log_adapter')->log("peso: $peso");
         Mage::getModel('core/log_adapter')->log("cpfOrCnpj: $cpfOrCnpj");
-        
+
         if (empty($zipcode))
             echo '<ul class="messages"><li class="warnmsg"><ul><li>' . Mage::helper('dpdfrrelais')->__('The field Postal Code is mandatory!') . '</li></ul></li></ul>';
         else {
             if (empty($city))
                 echo '<ul class="messages"><li class="warnmsg"><ul><li>' . Mage::helper('dpdfrrelais')->__('The field City is mandatory!') . '</li></ul></li></ul>';
             else {
-                
+
                 $serviceurl = Mage::getStoreConfig('dpdfrexport/embarcador/mypudoserviceurl');
                 $firmid = Mage::getStoreConfig('dpdfrexport/embarcador/mypudofirmid');
                 $key = Mage::getStoreConfig('dpdfrexport/embarcador/mypudokey');
                 $zipcodeStore = Mage::getStoreConfig('dpdfrexport/embarcador/cep');
-                
+                $authorization = Mage::getStoreConfig('dpdfrexport/embarcador/authorization');
+
                 // Mage::getModel('core/log_adapter')->log("serviceurl: $serviceurl");
                 // Mage::getModel('core/log_adapter')->log("firmid: $firmid");
                 // Mage::getModel('core/log_adapter')->log("key: $key");
                 // Mage::getModel('core/log_adapter')->log("zipcodeStore: $zipcodeStore");
-                
+
                 // Paramètres d'appel au WS MyPudo
                 $requestId = rand(1000, 10000000);
                 $variables = array(
@@ -101,9 +102,10 @@ class DPDFrance_Relais_PickupController extends Mage_Core_Controller_Front_Actio
                     'max_distance_search' => '',
                     'weight' => '',
                     'category' => '',
-                    'holiday_tolerant' => ''
+                    'holiday_tolerant' => '',
+                    'authorization' => $authorization
                 );
-                
+
                 try {
                     ini_set("default_socket_timeout", 3);
                     $GetPudoList = Mage::helper('dpdfrexport')->getMYPUDOList($variables);
@@ -122,9 +124,9 @@ class DPDFrance_Relais_PickupController extends Mage_Core_Controller_Front_Actio
                 } catch (Exception $ex) {
                     // error_log($ex);
                 }
-                
+
                 $quality = (int) $doc_xml->attributes()->quality;
-                
+
                 if ($doc_xml->xpath('ERROR')) {
                     echo '<ul class="messages"><li class="warnmsg"><ul><li>' . Mage::helper('dpdfrrelais')->__('An error ocurred while fetching the DPD Pickup points. Please try again') . '</li></ul></li></ul>';
                 } else {
@@ -132,24 +134,24 @@ class DPDFrance_Relais_PickupController extends Mage_Core_Controller_Front_Actio
                         echo '<ul class="messages"><li class="warnmsg"><ul><li>' . Mage::helper('dpdfrrelais')->__('There are no DPD Pickup points for the selected adress. Please modify it.') . '</li></ul></li></ul>';
                     } else {
                         $allpudoitems = $doc_xml->xpath('PUDO_ITEMS');
-                        
+
                         foreach ($allpudoitems as $singlepudoitem) {
                             $result = $singlepudoitem->xpath('PUDO_ITEM');
                             $i = 0;
                             foreach ($result as $result2) {
                                 $offset = $i;
-                                
+
                                 $LATITUDE = (float) str_replace(",", ".", (string) $result2->LATITUDE);
                                 $LONGITUDE = (float) str_replace(",", ".", (string) $result2->LONGITUDE);
-                                
+
                                 $precoFrete = Mage::helper('dpdfrexport')->getPrecoFrete($zipcodeStore, $result2->ZIPCODE, $vlDec, $peso, $cpfOrCnpj, '40');
-                                
+
                                 if ($precoFrete == false) {
                                     $precoFrete = 'ERRO';
                                 }
-                                
+
                                 // Mage::getModel('core/log_adapter')->log("result2: ".print_r($result2, true));
-                                
+
                                 $html = '
                                 <div>
                                     <span class="dpdfrrelais_logo"><img src="' . Mage::getBaseUrl('media') . 'dpdfrance/front/relais/pointrelais.png" alt="-"/></span>
@@ -161,7 +163,7 @@ class DPDFrance_Relais_PickupController extends Mage_Core_Controller_Front_Actio
                                     <label class="dpdfrrelais_button_ici" for="relay-point' . $offset . '"><span><span></span></span><b>ICI</b></label>
                                 </div>
                                 ';
-                                
+
                                 $days = array(
                                     1 => 'monday',
                                     2 => 'tuesday',
@@ -173,13 +175,13 @@ class DPDFrance_Relais_PickupController extends Mage_Core_Controller_Front_Actio
                                 );
                                 $point = array();
                                 $item = (array) $result2;
-                                
+
                                 if (count($item['OPENING_HOURS_ITEMS']->OPENING_HOURS_ITEM) > 0)
                                     foreach ($item['OPENING_HOURS_ITEMS']->OPENING_HOURS_ITEM as $k => $oh_item) {
                                         $oh_item = (array) $oh_item;
                                         $point[$days[$oh_item['DAY_ID']]][] = $oh_item['START_TM'] . ' - ' . $oh_item['END_TM'];
                                     }
-                                
+
                                 if (empty($point['monday'])) {
                                     $h1 = Mage::helper('dpdfrrelais')->__('Closed');
                                 } else {
@@ -189,7 +191,7 @@ class DPDFrance_Relais_PickupController extends Mage_Core_Controller_Front_Actio
                                         $h1 = $point['monday'][0] . ' & ' . $point['monday'][1];
                                     }
                                 }
-                                
+
                                 if (empty($point['tuesday'])) {
                                     $h2 = Mage::helper('dpdfrrelais')->__('Closed');
                                 } else {
@@ -199,7 +201,7 @@ class DPDFrance_Relais_PickupController extends Mage_Core_Controller_Front_Actio
                                         $h2 = $point['tuesday'][0] . ' & ' . $point['tuesday'][1];
                                     }
                                 }
-                                
+
                                 if (empty($point['wednesday'])) {
                                     $h3 = Mage::helper('dpdfrrelais')->__('Closed');
                                 } else {
@@ -209,7 +211,7 @@ class DPDFrance_Relais_PickupController extends Mage_Core_Controller_Front_Actio
                                         $h3 = $point['wednesday'][0] . ' & ' . $point['wednesday'][1];
                                     }
                                 }
-                                
+
                                 if (empty($point['thursday'])) {
                                     $h4 = Mage::helper('dpdfrrelais')->__('Closed');
                                 } else {
@@ -219,7 +221,7 @@ class DPDFrance_Relais_PickupController extends Mage_Core_Controller_Front_Actio
                                         $h4 = $point['thursday'][0] . ' & ' . $point['thursday'][1];
                                     }
                                 }
-                                
+
                                 if (empty($point['friday'])) {
                                     $h5 = Mage::helper('dpdfrrelais')->__('Closed');
                                 } else {
@@ -229,7 +231,7 @@ class DPDFrance_Relais_PickupController extends Mage_Core_Controller_Front_Actio
                                         $h5 = $point['friday'][0] . ' & ' . $point['friday'][1];
                                     }
                                 }
-                                
+
                                 if (empty($point['saturday'])) {
                                     $h6 = Mage::helper('dpdfrrelais')->__('Closed');
                                 } else {
@@ -239,7 +241,7 @@ class DPDFrance_Relais_PickupController extends Mage_Core_Controller_Front_Actio
                                         $h6 = $point['saturday'][0] . ' & ' . $point['saturday'][1];
                                     }
                                 }
-                                
+
                                 if (empty($point['sunday'])) {
                                     $h7 = Mage::helper('dpdfrrelais')->__('Closed');
                                 } else {
@@ -249,7 +251,7 @@ class DPDFrance_Relais_PickupController extends Mage_Core_Controller_Front_Actio
                                         $h7 = $point['sunday'][0] . ' & ' . $point['sunday'][1];
                                     }
                                 }
-                                
+
                                 $html .= '<div id="relaydetail' . $offset . '" style="display:none;">
                                             <div class="dpdfrrelaisboxcarto" id="map_canvas' . $offset . '" style="width:100%;"></div>
                                             <div id="dpdfrrelaisboxbottom" class="dpdfrrelaisboxbottom">
@@ -263,7 +265,7 @@ class DPDFrance_Relais_PickupController extends Mage_Core_Controller_Front_Actio
                                 if (! empty($result2->LOCAL_HINT))
                                     $html .= '<p>' . Mage::helper('dpdfrrelais')->__('info') . '  :  ' . $result2->LOCAL_HINT . '</p>';
                                 $html .= '</div>';
-                                
+
                                 $html .= '<div class="dpdfrrelaisboxhoraires">
                                             <div class="dpdfrrelaisboxhorairesheader"><img src="' . Mage::getBaseUrl('media') . 'dpdfrance/front/relais/horaires.png" alt="-" width="32" height="32"/><br/>' . Mage::helper('dpdfrrelais')->__('Opening hours') . '</div>
                                             <p><span>' . Mage::helper('dpdfrrelais')->__('Monday') . ' : </span>' . $h1 . '</p>
@@ -274,7 +276,7 @@ class DPDFrance_Relais_PickupController extends Mage_Core_Controller_Front_Actio
                                             <p><span>' . Mage::helper('dpdfrrelais')->__('Saturday') . ' : </span>' . $h6 . '</p>
                                             <p><span>' . Mage::helper('dpdfrrelais')->__('Sunday') . ' : </span>' . $h7 . '</p>
                                         </div>';
-                                
+
                                 $html .= '<div class="dpdfrrelaisboxinfos">
                                             <div class="dpdfrrelaisboxinfosheader"><img src="' . Mage::getBaseUrl('media') . 'dpdfrance/front/relais/info.png" alt="-" width="32" height="32"/><br/>' . Mage::helper('dpdfrrelais')->__('More info') . '</div>
                                             <div><h5>' . Mage::helper('dpdfrrelais')->__('Distance in KM') . '  :  </h5><strong>' . sprintf("%01.2f", $result2->DISTANCE / 1000) . ' km </strong></div>
@@ -286,10 +288,10 @@ class DPDFrance_Relais_PickupController extends Mage_Core_Controller_Front_Actio
                                     }
                                 }
                                 $html .= '</div>';
-                                
+
                                 $html .= '</div></div>'; // dpdfrrelaisboxbottom et relaydetail
                                 echo $html;
-                                
+
                                 $i ++;
                                 $hd1 = $hd2 = $hd3 = $hd4 = $hd5 = $hd6 = $hd7 = $h1 = $h2 = $h3 = $h4 = $h5 = $h6 = $h7 = null;
                                 if ($i == 5) { // Nombre de points relais à afficher - max 10

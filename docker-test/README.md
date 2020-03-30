@@ -13,7 +13,7 @@
 - [Instalação](#instalacao)
 - [Acesso](#acesso)
 - [Uso](#uso)
-  - [Gerar pagote do plugin](#gerar-pagote-do-plugin)
+  - [Gerar pacote do plugin](#gerar-pacote-do-plugin)
   - [Copiar arquivos para o container](#copiar-arquivos-para-o-container)
   - [Alguns comandos úteis](#alguns-comandos-uteis)
 
@@ -48,8 +48,8 @@ Acesse localhost na porta configurada, no exemplo **http://localhost:12811** e t
 <a id="uso"></a>
 ## Uso
 
-<a id="gerar-pagote-do-plugin"></a>
-### Gerar pagote do plugin
+<a id="gerar-pacote-do-plugin"></a>
+### Gerar pacote do plugin
 Criar o pacote zip a partir do código fonte, compactando a pasta **src** ou utilize o script *build.sh* fornecido na raiz do repositório:
 ```bash
 $ ./build.sh 

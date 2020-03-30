@@ -597,7 +597,7 @@ class DPDFrance_Export_Adminhtml_DPDFrance_ExportController extends Mage_Adminht
     },
     "des": {
         "nome": "' . $params['dest_nome'] . '",
-        "cnpjCpf": "' . $params['dest_cnpjCpf'] . '",
+        "cnpjCpf": "' . preg_replace("/\D/", "", $params['dest_cnpjCpf']) . '",
         "ie": "' . $params['dest_ie'] . '",
         "endereco": "' . $params['dest_endereco'] . '",
         "numero": "' . $params['dest_numero'] . '",
